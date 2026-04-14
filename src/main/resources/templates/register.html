@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f6f8; margin: 0; }
+        .card { width: 420px; margin: 40px auto; background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 20px; }
+        .title { margin: 0 0 16px; font-size: 22px; }
+        .field { margin-bottom: 12px; }
+        .field label { display: block; margin-bottom: 6px; font-size: 14px; }
+        .field input { width: 100%; padding: 10px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 10px; border: 0; background: #0b57d0; color: #fff; border-radius: 8px; cursor: pointer; margin-bottom: 8px; }
+        .btn.secondary { background: #2f855a; }
+        .msg { padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 14px; }
+        .error { background: #fde8e8; color: #b91c1c; }
+        .ok { background: #e8f5e9; color: #1b5e20; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1 class="title">Register with email OTP</h1>
+
+    <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
+    <div class="field"><label for="password">Password</label><input id="password" type="password" required></div>
+    <div class="field"><label for="fullname">Full name</label><input id="fullname" type="text" required></div>
+    <div class="field"><label for="gender">Gender</label><input id="gender" type="text"></div>
+    <div class="field"><label for="phone">Phone</label><input id="phone" type="text"></div>
+    <div class="field"><label for="targetScore">Target score</label><input id="targetScore" type="number" min="0" max="990" value="600"></div>
+
+    <button class="btn" id="sendOtpBtn" type="button">Send OTP</button>
+
+    <div class="field"><label for="otp">OTP (6 digits)</label><input id="otp" type="text" maxlength="6"></div>
+    <button class="btn secondary" id="verifyBtn" type="button">Verify OTP and Create Account</button>
+
+    <div id="message"></div>
+
+    <p style="font-size: 14px; margin-top: 12px;">
+        Already have an account? <a th:href="@{/login}">Login here</a>
+    </p>
+</div>
+
+<script>
+    const msgEl = document.getElementById('message');
+
+    function showMessage(text, ok) {
+        msgEl.className = ok ? 'msg ok' : 'msg error';
+        msgEl.textContent = text;
+    }
+
+    async function postJson(url, payload) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const raw = await response.text();
+        let data;
+        try {
+            data = raw ? JSON.parse(raw) : {};
+        } catch (e) {
+            throw new Error(raw ? raw.replace(/<[^>]*>/g, ' ').trim() : 'Server returned a non-JSON response');
+        }
+        if (!response.ok) {
+            throw new Error(data.message || 'Request failed');
+        }
+        return data;
+    }
+
+    document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+        try {
+            const payload = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                fullname: document.getElementById('fullname').value,
+                gender: document.getElementById('gender').value,
+                phone: document.getElementById('phone').value,
+                targetScore: Number(document.getElementById('targetScore').value || 600)
+            };
+            const data = await postJson('/auth/register/send-otp', payload);
+            showMessage(data.message, true);
+        } catch (e) {
+            showMessage(e.message, false);
+        }
+    });
+
+    document.getElementById('verifyBtn').addEventListener('click', async () => {
+        try {
+            const payload = {
+                email: document.getElementById('email').value,
+                otp: document.getElementById('otp').value
+            };
+            const data = await postJson('/auth/register/verify-otp', payload);
+            showMessage(data.message + '. You can login now.', true);
+        } catch (e) {
+            showMessage(e.message, false);
+        }
+    });
+</script>
+</body>
+</html>
+
+
