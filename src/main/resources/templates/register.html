@@ -31,7 +31,7 @@
 
     <button class="btn" id="sendOtpBtn" type="button">Send OTP</button>
 
-    <div class="field"><label for="otp">OTP (6 digits)</label><input id="otp" type="text" maxlength="6"></div>
+    <div class="field"><label for="otp">OTP (6 digits)</label><input id="otp" type="text" inputmode="numeric" maxlength="6"></div>
     <button class="btn secondary" id="verifyBtn" type="button">Verify OTP and Create Account</button>
 
     <div id="message"></div>
@@ -87,9 +87,13 @@
 
     document.getElementById('verifyBtn').addEventListener('click', async () => {
         try {
+            const otp = document.getElementById('otp').value.trim();
+            if (!/^\d{6}$/.test(otp)) {
+                throw new Error('OTP must be exactly 6 digits');
+            }
             const payload = {
                 email: document.getElementById('email').value,
-                otp: document.getElementById('otp').value
+                otp
             };
             const data = await postJson('/auth/register/verify-otp', payload);
             showMessage(data.message + '. You can login now.', true);

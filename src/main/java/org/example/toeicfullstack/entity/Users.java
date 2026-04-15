@@ -1,25 +1,18 @@
 package org.example.toeicfullstack.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
-public abstract class Users {
+public class Users {
 
 	@Id
-	@Column(name = "id", length = 36, nullable = false, updatable = false)
+	@Column(name = "id", length = 10, nullable = false, updatable = false)
 	private String id;
 
 	@Column(name = "password", nullable = false)
@@ -34,16 +27,20 @@ public abstract class Users {
 	@Column(name = "fullname", length = 150)
 	private String fullname;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "gender", length = 20)
-	private String gender;
+	private Gender gender;
 
 	@Column(name = "phone", length = 20)
 	private String phone;
 
+	@Column(name = "role", nullable = false, length = 30)
+	private String role;
+
 	public Users() {
 	}
 
-	public Users(String id, String password, String email, String avatar, String fullname, String gender, String phone) {
+	public Users(String id, String password, String email, String avatar, String fullname, Gender gender, String phone, String role) {
 		this.id = id;
 		this.password = password;
 		this.email = email;
@@ -51,15 +48,17 @@ public abstract class Users {
 		this.fullname = fullname;
 		this.gender = gender;
 		this.phone = phone;
+		this.role = role;
 	}
 
-	public Users(String password, String email, String avatar, String fullname, String gender, String phone) {
+	public Users(String password, String email, String avatar, String fullname, Gender gender, String phone, String role) {
 		this.password = password;
 		this.email = email;
 		this.avatar = avatar;
 		this.fullname = fullname;
 		this.gender = gender;
 		this.phone = phone;
+		this.role = role;
 	}
 
 	public String getId() {
@@ -104,11 +103,15 @@ public abstract class Users {
 	}
 
 	public String getGender() {
-		return gender;
+		return gender != null ? gender.getDisplayName() : null;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public void setGender(String genderStr) {
+		this.gender = genderStr != null ? Gender.fromDisplayName(genderStr) : null;
 	}
 
 	public String getPhone() {
@@ -119,10 +122,11 @@ public abstract class Users {
 		this.phone = phone;
 	}
 
-	@PrePersist
-	protected void onCreate() {
-		if (id == null || id.isBlank()) {
-			id = UUID.randomUUID().toString();
-		}
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

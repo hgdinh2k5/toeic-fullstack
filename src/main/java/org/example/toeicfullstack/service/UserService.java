@@ -3,7 +3,6 @@ package org.example.toeicfullstack.service;
 import org.example.toeicfullstack.entity.UserPrincipal;
 import org.example.toeicfullstack.dto.auth.SendOtpRequest;
 import org.example.toeicfullstack.dto.auth.VerifyOtpRegisterRequest;
-import org.example.toeicfullstack.entity.Student;
 import org.example.toeicfullstack.entity.Users;
 import org.example.toeicfullstack.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +110,6 @@ public class UserService implements UserDetailsService {
 				request.getFullname(),
 				request.getGender(),
 				request.getPhone(),
-				request.getTargetScore() == null ? 600 : request.getTargetScore(),
 				otp,
 				now.plusSeconds(OTP_TTL_SECONDS),
 				now
@@ -139,25 +137,35 @@ public class UserService implements UserDetailsService {
 			throw new IllegalArgumentException("OTP has expired");
 		}
 
-		if (!pending.otp.equals(request.getOtp())) {
+		if (!normalizeOtp(pending.otp).equals(normalizeOtp(request.getOtp()))) {
 			throw new IllegalArgumentException("OTP is invalid");
 		}
 
-		Student student = new Student();
-		student.setEmail(email);
-		student.setPassword(pending.encodedPassword);
-		student.setFullname(pending.fullname);
-		student.setGender(pending.gender);
-		student.setPhone(pending.phone);
-		student.setAvatar("default-avatar.png");
-		student.setTargetScore(pending.targetScore);
+		Users user = new Users();
+		user.setId(generateStudentId());
+		user.setEmail(email);
+		user.setPassword(pending.encodedPassword);
+		user.setFullname(pending.fullname);
+		user.setGender(pending.gender);
+		user.setPhone(pending.phone);
+		user.setAvatar("default-avatar.png");
+		user.setRole("STUDENT");
 
-		usersRepo.save(student);
+		usersRepo.save(user);
 		pendingRegistrations.remove(email);
+	}
+
+	private String generateStudentId() {
+		long count = usersRepo.count();
+		return String.format("ST%03d", count + 1);
 	}
 
 	private String normalizeEmail(String email) {
 		return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
+	}
+
+	private String normalizeOtp(String otp) {
+		return otp == null ? "" : otp.trim();
 	}
 
 	private String generateOtp() {
@@ -169,7 +177,6 @@ public class UserService implements UserDetailsService {
 		private final String fullname;
 		private final String gender;
 		private final String phone;
-		private final int targetScore;
 		private final String otp;
 		private final Instant expiresAt;
 		private final Instant lastSentAt;
@@ -178,7 +185,6 @@ public class UserService implements UserDetailsService {
 									String fullname,
 									String gender,
 									String phone,
-									int targetScore,
 									String otp,
 									Instant expiresAt,
 									Instant lastSentAt) {
@@ -186,7 +192,6 @@ public class UserService implements UserDetailsService {
 			this.fullname = fullname;
 			this.gender = gender;
 			this.phone = phone;
-			this.targetScore = targetScore;
 			this.otp = otp;
 			this.expiresAt = expiresAt;
 			this.lastSentAt = lastSentAt;
