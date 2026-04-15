@@ -2,6 +2,7 @@ package org.example.toeicfullstack.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class SendOtpRequest {
@@ -17,6 +18,7 @@ public class SendOtpRequest {
     @NotBlank(message = "Full name is required")
     private String fullname;
 
+    @Pattern(regexp = "^(Nam|Nữ)$", message = "Gender must be 'Nam' or 'Nữ'")
     private String gender;
 
     private String phone;
