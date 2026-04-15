@@ -76,16 +76,13 @@ public class UserPrincipal implements UserDetails {
     }
 
     private String resolveRole() {
-        if (user instanceof Admin) {
-            return "ROLE_ADMIN";
-        }
-        if (user instanceof Teacher) {
-            return "ROLE_TEACHER";
-        }
-        if (user instanceof Student) {
+        String rawRole = user.getRole();
+        if (rawRole == null || rawRole.isBlank()) {
             return "ROLE_STUDENT";
         }
-        return "ROLE_USER";
+
+        String normalized = rawRole.trim().toUpperCase();
+        return normalized.startsWith("ROLE_") ? normalized : "ROLE_" + normalized;
     }
 }
 
