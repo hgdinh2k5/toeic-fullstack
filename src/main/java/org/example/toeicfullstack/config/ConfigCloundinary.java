@@ -11,7 +11,7 @@ import java.util.Map;
 public class ConfigCloundinary {
 
     @Bean
-    public Cloudinary configKey() {
+    public Cloudinary Cloudinary() {
         Map<String, String> config = new HashMap<String, String>();
         config.put("cloud_name", "dybz8iuyt");
         config.put("api_key", "934197112982238");
