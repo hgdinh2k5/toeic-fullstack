@@ -1,10 +1,18 @@
 package org.example.toeicfullstack.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "discussions")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Discussion {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
