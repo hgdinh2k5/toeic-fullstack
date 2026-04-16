@@ -1,9 +1,9 @@
 package org.example.toeicfullstack.entity;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.jspecify.annotations.NonNull;
+import org.example.toeicfullstack.entity.enums.Role;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,12 +37,12 @@ public class UserPrincipal implements UserDetails {
     }
 
     public String getRole() {
-        return resolveRole();
+        return resolveRole().getAuthority();
     }
 
     @Override
     public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(getRole()));
+        return List.of(resolveRole());
     }
 
     @Override
@@ -75,14 +75,8 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
-    private String resolveRole() {
-        String rawRole = user.getRole();
-        if (rawRole == null || rawRole.isBlank()) {
-            return "ROLE_STUDENT";
-        }
-
-        String normalized = rawRole.trim().toUpperCase();
-        return normalized.startsWith("ROLE_") ? normalized : "ROLE_" + normalized;
+    private Role resolveRole() {
+        return user.getRole() == null ? Role.STUDENT : user.getRole();
     }
 }
 
