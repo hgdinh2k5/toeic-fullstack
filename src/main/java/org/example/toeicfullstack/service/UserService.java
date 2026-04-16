@@ -4,6 +4,8 @@ import org.example.toeicfullstack.entity.UserPrincipal;
 import org.example.toeicfullstack.dto.auth.SendOtpRequest;
 import org.example.toeicfullstack.dto.auth.VerifyOtpRegisterRequest;
 import org.example.toeicfullstack.entity.Users;
+import org.example.toeicfullstack.entity.enums.Gender;
+import org.example.toeicfullstack.entity.enums.Role;
 import org.example.toeicfullstack.repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -142,23 +144,18 @@ public class UserService implements UserDetailsService {
 		}
 
 		Users user = new Users();
-		user.setId(generateStudentId());
 		user.setEmail(email);
 		user.setPassword(pending.encodedPassword);
 		user.setFullname(pending.fullname);
-		user.setGender(pending.gender);
+		user.setGender(Gender.fromInput(pending.gender));
 		user.setPhone(pending.phone);
 		user.setAvatar("default-avatar.png");
-		user.setRole("STUDENT");
+		user.setRole(Role.STUDENT);
 
 		usersRepo.save(user);
 		pendingRegistrations.remove(email);
 	}
 
-	private String generateStudentId() {
-		long count = usersRepo.count();
-		return String.format("ST%03d", count + 1);
-	}
 
 	private String normalizeEmail(String email) {
 		return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
