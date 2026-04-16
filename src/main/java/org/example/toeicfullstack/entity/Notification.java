@@ -26,11 +26,11 @@ public class Notification {
     private int durationInDays;        // thời hạn hiển thị (ngày)
     private String targetUrl;          // đường dẫn khi bấm vào thông báo
     private LocalDateTime createdAt;
-    // Notification được tạo bởi 1 User (admin/system)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private Users createdBy;
-    // 1 Notification gửi đến nhiều User (qua UserNotification)
+
     @OneToMany(mappedBy = "notification", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserNotification> userNotifications;
 
