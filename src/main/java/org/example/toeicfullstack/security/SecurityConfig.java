@@ -4,8 +4,6 @@ import org.example.toeicfullstack.entity.UserPrincipal;
 import org.example.toeicfullstack.entity.Users;
 import org.example.toeicfullstack.service.CustomOAuth2UserService;
 import org.example.toeicfullstack.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -35,24 +33,17 @@ public class SecurityConfig {
     private static final String TEACHER_REDIRECT_URL = "";
     private static final String STUDENT_REDIRECT_URL = "/student-test";
 
-    @Autowired
-    @Lazy
-    private UserDetailsService userDetailsService;
+    private final UserService usersService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
-    @Autowired
-    @Lazy
-    private UserService usersService;
-
-    @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public SecurityConfig(UserService usersService, CustomOAuth2UserService customOAuth2UserService) {
+        this.usersService = usersService;
+        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Bean
-    public AuthenticationProvider authenicationProvider(BCryptPasswordEncoder passwordEncoder) {
+    public AuthenticationProvider authenicationProvider(UserDetailsService userDetailsService,
+                                                        BCryptPasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
