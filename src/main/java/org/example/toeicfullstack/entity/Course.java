@@ -5,6 +5,7 @@ import lombok.*;
 import org.example.toeicfullstack.entity.enums.CourseLevel;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,6 +54,10 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Certificate> certificates;
+
+    @ManyToMany(mappedBy = "courses")
+    @Builder.Default
+    private List<Voucher> vouchers = new ArrayList<>();
 
 
 

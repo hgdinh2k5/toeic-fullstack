@@ -3,6 +3,8 @@ package org.example.toeicfullstack.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "lessons")
 @Getter

@@ -1,10 +1,18 @@
 package org.example.toeicfullstack.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Table(name = "discussions")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Discussion {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,6 +34,11 @@ public class Discussion {
     private Users student;
     // Nhiều discussion thuộc 1 lesson
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id", nullable = false)
+    @JoinColumn(name = "lesson_id")
     private Lesson lesson;
+
+    // Nhiều discussion thuộc 1 test
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id")
+    private Test test;
 }
