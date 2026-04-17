@@ -55,8 +55,7 @@ public class Voucher {
     @Builder.Default
     private VoucherStatus status = VoucherStatus.ACTIVE;
 
-    @Column(length = 20)
-    private DiscountType discountType;
+
 
 
 
@@ -77,7 +76,7 @@ public class Voucher {
     )
     @Builder.Default
     private List<SubscriptionPackage> subscriptionPackages = new ArrayList<>();
-    private List<Course> courses;
+
 
     @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
     @Builder.Default

@@ -48,8 +48,7 @@ public class SubscriptionOrder {
     @JoinColumn(name = "voucher_id")
     private Voucher voucher;
 
-    @OneToMany(mappedBy = "subscriptionOrder", cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
+
     @OneToMany(mappedBy = "subscriptionOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Transaction> transactions = new ArrayList<>();
