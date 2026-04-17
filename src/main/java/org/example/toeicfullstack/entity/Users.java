@@ -1,15 +1,6 @@
 package org.example.toeicfullstack.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.toeicfullstack.entity.enums.Gender;
 import org.example.toeicfullstack.entity.enums.Role;
@@ -76,6 +67,7 @@ public class Users {
 	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<CourseOrder> courseOrders = new ArrayList<>();
+
 	private LocalDateTime createdAt;
 
 	private LocalDateTime updatedAt ;
@@ -92,8 +84,7 @@ public class Users {
 	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
 	private List<Enrollment>enrollments;
 
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<CourseOrder>courseOrders;
+
 
 	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
 	private List<LessonProgress>lessonProgresses;

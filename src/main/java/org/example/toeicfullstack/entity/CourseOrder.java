@@ -43,8 +43,7 @@ public class CourseOrder {
     private List<Transaction> transactions = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "courseOrder", cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
+
 
 
 }
