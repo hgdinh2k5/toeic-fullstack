@@ -17,14 +17,20 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(columnDefinition = "TEXT")
     private String content;
+
     @Enumerated(EnumType.STRING)
     private TypeNotification type;
-    private int durationInDays;        // thời hạn hiển thị (ngày)
-    private String targetUrl;          // đường dẫn khi bấm vào thông báo
+
+    private int durationInDays;
+
+    private String targetUrl;
+
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
