@@ -1,16 +1,12 @@
 package org.example.toeicfullstack.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.toeicfullstack.entity.enums.Gender;
 import org.example.toeicfullstack.entity.enums.Role;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -48,5 +44,35 @@ public class Users {
 	@Column(nullable = false)
 	@Builder.Default
 	private Role role = Role.STUDENT;
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime updatedAt ;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<Certificate> certificates;
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+	private List<Discussion> discussions;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<CourseReview>courseReviews;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<Enrollment>enrollments;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<CourseOrder>courseOrders;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<LessonProgress>lessonProgresses;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<UserNotification>userNotifications;
+
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	private List<Notification>notifications;
+
+
 
 }

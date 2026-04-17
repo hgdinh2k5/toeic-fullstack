@@ -35,6 +35,14 @@ public class Course {
 
     private LocalDateTime createdAt;
 
+    private Boolean isPublished;
+
+    private LocalDateTime updatedAt ;
+
+    private int totalDuration;
+
+    private String language;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Users teacher;
@@ -57,6 +65,9 @@ public class Course {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private CourseCategory category;
+
+    @ManyToMany(mappedBy = "courses")
+    private List<Voucher> vouchers;
 
 
 }
