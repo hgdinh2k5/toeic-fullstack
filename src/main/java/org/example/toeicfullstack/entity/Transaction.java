@@ -13,11 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Transaction {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(unique = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
+    @Column(nullable = false, unique = true)
     private String transactionId;
 
     private String paymentGateway;
@@ -41,3 +42,4 @@ public class Transaction {
     @JoinColumn(name = "course_order_id")
     private CourseOrder courseOrder;
 }
+

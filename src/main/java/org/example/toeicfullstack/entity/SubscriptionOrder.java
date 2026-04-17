@@ -5,6 +5,8 @@ import lombok.*;
 import org.example.toeicfullstack.entity.enums.OrderStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,28 +17,41 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SubscriptionOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    private LocalDate purchaseDate;
+    @Column(nullable = false, unique = true)
+    private String orderCode;
 
-    private LocalDate expireDate;
+    private LocalDateTime purchaseDate;
 
-    private double paidAmount;
+    private LocalDateTime expireDate;
+
+    @Column(nullable = false)
+    private Double paidAmount;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(nullable = false, length = 20)
     private OrderStatus orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "package_id", nullable = false)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Users student;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subscription_package_id", nullable = false)
     private SubscriptionPackage subscriptionPackage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    @JoinColumn(name = "voucher_id")
+    private Voucher voucher;
 
     @OneToMany(mappedBy = "subscriptionOrder", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
+    @OneToMany(mappedBy = "subscriptionOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Transaction> transactions = new ArrayList<>();
 }
+

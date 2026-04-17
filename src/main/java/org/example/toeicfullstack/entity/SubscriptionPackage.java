@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.toeicfullstack.entity.enums.PackageType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class SubscriptionPackage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -22,13 +24,20 @@ public class SubscriptionPackage {
     private String packageName;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 30)
+    @Column(nullable = false, length = 50)
     private PackageType packageType;
 
-    private double price;
+    @Column(nullable = false)
+    private Double price;
 
-    private int durationInDays;             // thời hạn gói (ngày)
+    @Column(nullable = false)
+    private Integer durationInDays;
 
-    @OneToMany(mappedBy = "subscriptionPackage", cascade = CascadeType.ALL)
-    private List<SubscriptionOrder> orders;
+    @OneToMany(mappedBy = "subscriptionPackage", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<SubscriptionOrder> subscriptionOrders = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "subscriptionPackages")
+    @Builder.Default
+    private List<Voucher> vouchers = new ArrayList<>();
 }

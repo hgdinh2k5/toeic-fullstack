@@ -5,6 +5,7 @@ import lombok.*;
 import org.example.toeicfullstack.entity.enums.CourseLevel;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -67,7 +68,9 @@ public class Course {
     private CourseCategory category;
 
     @ManyToMany(mappedBy = "courses")
-    private List<Voucher> vouchers;
+    @Builder.Default
+    private List<Voucher> vouchers = new ArrayList<>();
+
 
 
 }
