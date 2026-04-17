@@ -81,12 +81,16 @@ public class Voucher {
     @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
     @Builder.Default
     private List<SubscriptionOrder> subscriptionOrders = new ArrayList<>();
-    @OneToMany(mappedBy = "voucher")
-    private List<CourseOrder> orders;
+
 
     @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
     @Builder.Default
     private List<CourseOrder> courseOrders = new ArrayList<>();
+
+    // Hiện tại không thấy trong Users.java
+// Nên thêm:
+
+
 }
 
 

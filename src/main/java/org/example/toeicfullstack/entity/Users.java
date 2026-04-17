@@ -72,29 +72,31 @@ public class Users {
 
 	private LocalDateTime updatedAt ;
 
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+	// ĐỔI TẤT CẢ CÁC DÒNG NÀY:
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
 	private List<Certificate> certificates;
 
-	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-	private List<Discussion> discussions;
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<CourseReview> courseReviews;
 
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<CourseReview>courseReviews;
-
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<Enrollment>enrollments;
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<Enrollment> enrollments;
 
 
 
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<LessonProgress>lessonProgresses;
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<LessonProgress> lessonProgresses;
 
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<UserNotification>userNotifications;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)      // "users" → "user"
+	private List<UserNotification> userNotifications;
 
-	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-	private List<Notification>notifications;
+	@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL) // "users" → "createdBy"
+	private List<Notification> notifications;
 
+	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<Discussion> discussions = new ArrayList<>();
 
 
 }
