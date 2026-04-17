@@ -14,16 +14,20 @@ import java.time.LocalDateTime;
 @Builder
 public class Certificate {
     @Id
-    private String id;                     // UUID tự sinh
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
     @Column(unique = true, nullable = false)
-    private String certificateCode;        // mã chứng chỉ tra cứu (VD: CERT-20240416-001)
+    private String certificateCode;
+
     private LocalDateTime issuedDate;
-    private String contentUrl;             // URL file PDF/ảnh chứng chỉ từ Cloudinary
-    // Nhiều certificate thuộc 1 student
+
+    private String contentUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
     private Users student;
-    // Nhiều certificate thuộc 1 khóa học
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;

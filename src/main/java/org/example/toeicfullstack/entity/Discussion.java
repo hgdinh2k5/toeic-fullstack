@@ -21,7 +21,11 @@ public class Discussion {
     @Column(columnDefinition = "TEXT")
     private String content;
     private LocalDateTime createdAt;
-    // Comment cha (null nếu là comment gốc)
+
+    private LocalDateTime updatedAt ;
+
+    private Boolean isDeleted  ;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_discussion_id")
     private Discussion parentDiscussion;

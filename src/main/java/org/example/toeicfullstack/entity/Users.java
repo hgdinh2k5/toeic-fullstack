@@ -1,20 +1,14 @@
 package org.example.toeicfullstack.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.toeicfullstack.entity.enums.Gender;
 import org.example.toeicfullstack.entity.enums.Role;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -73,4 +67,36 @@ public class Users {
 	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
 	@Builder.Default
 	private List<CourseOrder> courseOrders = new ArrayList<>();
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime updatedAt ;
+
+	// ĐỔI TẤT CẢ CÁC DÒNG NÀY:
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<Certificate> certificates;
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<CourseReview> courseReviews;
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<Enrollment> enrollments;
+
+
+
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL)   // "users" → "student"
+	private List<LessonProgress> lessonProgresses;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)      // "users" → "user"
+	private List<UserNotification> userNotifications;
+
+	@OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL) // "users" → "createdBy"
+	private List<Notification> notifications;
+
+	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<Discussion> discussions = new ArrayList<>();
+
+
 }

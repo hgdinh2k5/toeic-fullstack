@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.toeicfullstack.entity.enums.OrderStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class SubscriptionOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voucher_id")
     private Voucher voucher;
+
 
     @OneToMany(mappedBy = "subscriptionOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

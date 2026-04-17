@@ -41,4 +41,9 @@ public class CourseOrder {
     @OneToMany(mappedBy = "courseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Transaction> transactions = new ArrayList<>();
+
+
+
+
+
 }
