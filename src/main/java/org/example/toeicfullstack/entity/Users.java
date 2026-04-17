@@ -1,9 +1,21 @@
 package org.example.toeicfullstack.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.example.toeicfullstack.entity.enums.Gender;
 import org.example.toeicfullstack.entity.enums.Role;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,6 +57,25 @@ public class Users {
 	@Builder.Default
 	private Role role = Role.STUDENT;
 
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<Vocabulary> vocabularies = new ArrayList<>();
+
+	@OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<VocabTopic> vocabTopicsCreated = new ArrayList<>();
+
+	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<TestAttempt> testAttempts = new ArrayList<>();
+
+	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<SubscriptionOrder> subscriptionOrders = new ArrayList<>();
+
+	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+	@Builder.Default
+	private List<CourseOrder> courseOrders = new ArrayList<>();
 	private LocalDateTime createdAt;
 
 	private LocalDateTime updatedAt ;
