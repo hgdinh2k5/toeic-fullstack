@@ -34,6 +34,11 @@ public class Discussion {
     private Users student;
     // Nhiều discussion thuộc 1 lesson
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id", nullable = false)
+    @JoinColumn(name = "lesson_id")
     private Lesson lesson;
+
+    // Nhiều discussion thuộc 1 test
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id")
+    private Test test;
 }

@@ -2,43 +2,53 @@ package org.example.toeicfullstack.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.toeicfullstack.entity.enums.CourseOrderStatus;
+import org.example.toeicfullstack.entity.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "course_orders")
+@Table(name = "subscription_orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseOrder {
+public class SubscriptionOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(unique = true, nullable = false)
-    private String orderCode;              // mã đơn hàng (VD: ORD-20240416-001234)
-    private LocalDateTime orderDate;
+
+    @Column(nullable = false, unique = true)
+    private String orderCode;
+
+    private LocalDateTime purchaseDate;
+
+    private LocalDateTime expireDate;
+
+    @Column(nullable = false)
+    private Double paidAmount;
+
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private CourseOrderStatus status;      // PENDING | COMPLETED | FAILED | REFUNDED
-    // Nhiều order thuộc 1 student
+    @Column(nullable = false, length = 20)
+    private OrderStatus orderStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
     private Users student;
-    // Nhiều order thuộc 1 khóa học
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    @JoinColumn(name = "subscription_package_id", nullable = false)
+    private SubscriptionPackage subscriptionPackage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voucher_id")
     private Voucher voucher;
 
-    @OneToMany(mappedBy = "courseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subscriptionOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Transaction> transactions = new ArrayList<>();
 }
+
