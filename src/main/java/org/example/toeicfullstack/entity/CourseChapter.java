@@ -21,11 +21,12 @@ public class CourseChapter {
     @Column(nullable = false)
     private String chapterName;
 
-    private String stageName;              // tên giai đoạn / nhóm chương
+    private String stageName;
 
-    private Boolean isFreeTrial;           // chapter này có thể xem miễn phí không
+    private Boolean isFreeTrial;
 
-    // Nhiều chapter thuộc 1 khóa học
+    private int orderIndex;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;

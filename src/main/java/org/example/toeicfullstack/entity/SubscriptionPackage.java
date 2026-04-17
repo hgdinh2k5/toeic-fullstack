@@ -41,4 +41,3 @@ public class SubscriptionPackage {
     @Builder.Default
     private List<Voucher> vouchers = new ArrayList<>();
 }
-

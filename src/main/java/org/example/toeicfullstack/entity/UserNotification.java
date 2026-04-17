@@ -16,13 +16,15 @@ public class UserNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     private Boolean isRead = false;
-    private LocalDateTime readAt;      // thời điểm đọc (null nếu chưa đọc)
-    // Nhiều UserNotification thuộc về 1 User
+
+    private LocalDateTime readAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
-    // Nhiều UserNotification thuộc về 1 Notification
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notification_id", nullable = false)
     private Notification notification;

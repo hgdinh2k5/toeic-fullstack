@@ -2,6 +2,7 @@ package org.example.toeicfullstack.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.toeicfullstack.entity.enums.CourseOrderStatus;
 import org.example.toeicfullstack.entity.enums.DiscountType;
 import org.example.toeicfullstack.entity.enums.VoucherStatus;
 
@@ -54,6 +55,10 @@ public class Voucher {
     @Builder.Default
     private VoucherStatus status = VoucherStatus.ACTIVE;
 
+
+
+
+
     @ManyToMany
     @JoinTable(
             name = "voucher_courses",
@@ -72,13 +77,20 @@ public class Voucher {
     @Builder.Default
     private List<SubscriptionPackage> subscriptionPackages = new ArrayList<>();
 
+
     @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
     @Builder.Default
     private List<SubscriptionOrder> subscriptionOrders = new ArrayList<>();
 
+
     @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY)
     @Builder.Default
     private List<CourseOrder> courseOrders = new ArrayList<>();
+
+    // Hiện tại không thấy trong Users.java
+// Nên thêm:
+
+
 }
 
 
