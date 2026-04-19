@@ -16,6 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DictationQuestion extends Question {
 
+    @Column(columnDefinition = "TEXT")
     private String audioUrl;
 
     @Column(columnDefinition = "TEXT")
