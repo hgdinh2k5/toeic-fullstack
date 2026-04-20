@@ -28,4 +28,3 @@ public class DictationQuestion extends Question {
     @Column(columnDefinition = "TEXT")
     private String hint;
 }
-

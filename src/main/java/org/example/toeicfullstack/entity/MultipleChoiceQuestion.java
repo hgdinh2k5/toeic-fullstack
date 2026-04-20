@@ -28,5 +28,3 @@ public class MultipleChoiceQuestion extends Question {
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
 }
-
-

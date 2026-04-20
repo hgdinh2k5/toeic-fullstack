@@ -20,4 +20,3 @@ public class FillBlankQuestion extends Question {
     @Column(columnDefinition = "TEXT")
     private String hint;
 }
-

@@ -56,9 +56,6 @@ public class Voucher {
     private VoucherStatus status = VoucherStatus.ACTIVE;
 
 
-
-
-
     @ManyToMany
     @JoinTable(
             name = "voucher_courses",
