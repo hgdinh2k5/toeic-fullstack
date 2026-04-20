@@ -20,7 +20,6 @@ public class MultipleChoiceQuestion extends Question {
     @Column(name = "option_text", columnDefinition = "TEXT")
     private List<String> options = new ArrayList<>();
 
-    @Column(nullable = false)
     private String correctOption;
 
     @Column(columnDefinition = "TEXT")

@@ -28,7 +28,12 @@ public class Test {
     @JoinColumn(name = "book_collection_id")
     private BookCollection bookCollection;
 
-    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "test_parts",
+            joinColumns = @JoinColumn(name = "test_id"),
+            inverseJoinColumns = @JoinColumn(name = "part_id")
+    )
     @Builder.Default
     private List<Part> parts = new ArrayList<>();
 

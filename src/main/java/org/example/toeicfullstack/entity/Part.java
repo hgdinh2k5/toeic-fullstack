@@ -25,9 +25,9 @@ public class Part {
     @Column(columnDefinition = "TEXT")
     private String instructionText;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "test_id", nullable = false)
-    private Test test;
+    @ManyToMany(mappedBy = "parts")
+    @Builder.Default
+    private List<Test> tests = new ArrayList<>();
 
     @OneToMany(mappedBy = "part", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
