@@ -23,9 +23,9 @@ public class MultipleChoiceQuestion extends Question {
     @Column(nullable = false)
     private String correctOption;
 
+    @Column(columnDefinition = "TEXT")
     private String audioUrl;
 
+    @Column(columnDefinition = "TEXT")
     private String imageUrl;
 }
-
-

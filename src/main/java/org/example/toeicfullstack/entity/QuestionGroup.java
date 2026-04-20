@@ -22,8 +22,10 @@ public class QuestionGroup {
 	@Column(columnDefinition = "TEXT")
 	private String passageText;
 
+	@Column(columnDefinition = "TEXT")
 	private String audioUrl;
 
+	@Column(columnDefinition = "TEXT")
 	private String imageUrl;
 
 	@Column(columnDefinition = "TEXT")
