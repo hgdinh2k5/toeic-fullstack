@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dang nhap</title>
+	<style>
+		body { font-family: Arial, sans-serif; background: #f5f6f8; margin: 0; }
+		.card { width: 360px; margin: 64px auto; background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 20px; }
+		.title { margin: 0 0 16px; font-size: 22px; }
+		.field { margin-bottom: 12px; }
+		.field label { display: block; margin-bottom: 6px; font-size: 14px; }
+		.field input { width: 100%; padding: 10px; box-sizing: border-box; }
+		.btn { width: 100%; padding: 10px; border: 0; background: #0b57d0; color: #fff; border-radius: 8px; cursor: pointer; }
+		.msg { margin-bottom: 12px; padding: 10px; border-radius: 8px; font-size: 14px; }
+		.error { background: #fde8e8; color: #b91c1c; }
+		.ok { background: #e8f5e9; color: #1b5e20; }
+	</style>
+</head>
+<body>
+<div class="card">
+	<h1 class="title">Dang nhap</h1>
+
+	<div th:if="${param.error}" class="msg error">Email hoac mat khau khong dung.</div>
+	<div th:if="${param.logout}" class="msg ok">Ban da dang xuat.</div>
+
+	<form th:action="@{/login}" method="post">
+		<div class="field">
+			<label for="email">Email</label>
+			<input id="email" name="email" type="email" required>
+		</div>
+
+		<div class="field">
+			<label for="password">Mat khau</label>
+			<input id="password" name="password" type="password" required>
+		</div>
+
+		<button class="btn" type="submit">Dang nhap</button>
+	</form>
+
+	<p style="margin-top:12px; font-size:14px;">
+		Hoac <a th:href="@{/oauth2/authorization/google}">dang nhap bang Google</a>
+	</p>
+	<p style="font-size:14px;">
+		Chua co tai khoan? <a th:href="@{/register}">Dang ky tai khoan</a>
+	</p>
+</div>
+</body>
+</html>
+

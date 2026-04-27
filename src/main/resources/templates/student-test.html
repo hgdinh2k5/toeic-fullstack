@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f6f8; margin: 0; }
+        .card { width: 480px; margin: 48px auto; background: #fff; border: 1px solid #e6e6e6; border-radius: 12px; padding: 20px; }
+        .ok { color: #1b5e20; font-weight: bold; }
+        .row { margin-top: 10px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Student Redirect Test</h2>
+    <p class="ok">Ban da dang nhap thanh cong voi role STUDENT.</p>
+    <p class="row">Trang nay chi dung de test <code>STUDENT_REDIRECT_URL</code>.</p>
+    <p class="row"><a th:href="@{/logout}">Dang xuat</a></p>
+</div>
+</body>
+</html>
+
